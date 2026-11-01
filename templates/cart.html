@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Your cart | Common Goods{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <p class="eyebrow">Your selection</p>
+  <h1>Shopping cart</h1>
+</section>
+{% if items %}
+  <section class="cart-layout">
+    <div class="cart-items">
+      {% for item in items %}
+        <article class="cart-item">
+          <img src="{{ item.image_url }}" alt="{{ item.name }}">
+          <div class="cart-item-info">
+            <h2>{{ item.name }}</h2>
+            <p>₹{{ "%.2f"|format(item.price) }} each</p>
+            <form class="quantity-form" action="{{ url_for('update_cart', product_id=item.id) }}" method="post">
+              <label for="quantity-{{ item.id }}">Quantity</label>
+              <input id="quantity-{{ item.id }}" name="quantity" type="number" min="0" max="99" value="{{ item.quantity }}">
+              <button class="text-button" type="submit">Update</button>
+            </form>
+          </div>
+          <strong class="line-total">₹{{ "%.2f"|format(item.subtotal) }}</strong>
+        </article>
+      {% endfor %}
+    </div>
+    <aside class="order-summary">
+      <h2>Order summary</h2>
+      <p><span>Subtotal</span><strong>₹{{ "%.2f"|format(total) }}</strong></p>
+      <p class="summary-total"><span>Total</span><strong>₹{{ "%.2f"|format(total) }}</strong></p>
+      <a class="button button-dark button-wide" href="{{ url_for('checkout') }}">Continue to checkout</a>
+    </aside>
+  </section>
+{% else %}
+  <section class="empty-state">
+    <p>Your cart is empty.</p>
+    <a class="button button-dark" href="{{ url_for('index') }}">Browse products</a>
+  </section>
+{% endif %}
+{% endblock %}

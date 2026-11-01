@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Shop everyday goods | Common Goods{% endblock %}
+{% block content %}
+<section class="intro">
+  <p class="eyebrow">A small shop for everyday life</p>
+  <h1>Useful things.<br>Chosen with care.</h1>
+  <p class="intro-copy">Simple, well-made essentials for your home, desk, and daily routine.</p>
+</section>
+
+<section class="products-section" id="products">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">The collection</p>
+      <h2>Shop products</h2>
+    </div>
+    <form class="search-form" action="{{ url_for('index') }}" method="get" role="search">
+      <label class="visually-hidden" for="product-search">Search products</label>
+      <input id="product-search" type="search" name="q" placeholder="Search products" value="{{ search }}">
+      <button class="button button-dark" type="submit">Search</button>
+    </form>
+  </div>
+
+  {% if products %}
+    <div class="product-grid">
+      {% for product in products %}
+        <article class="product-item">
+          <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
+          <div class="product-details">
+            <div>
+              <h3>{{ product.name }}</h3>
+              <p class="price">₹{{ "%.2f"|format(product.price) }}</p>
+            </div>
+            <form class="add-to-cart-form" action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+              <button class="button button-outline" type="submit">Add to cart</button>
+              <span class="form-status" aria-live="polite"></span>
+            </form>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="empty-state">No products match “{{ search }}”. Try another search.</p>
+  {% endif %}
+</section>
+{% endblock %}

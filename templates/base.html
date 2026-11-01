@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Common Goods{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="{{ url_for('index') }}">Common Goods</a>
+    <nav aria-label="Main navigation">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('index') }}#products">Products</a>
+      <a href="{{ url_for('view_cart') }}">Cart <span class="cart-count" data-cart-count>{{ cart_count }}</span></a>
+      {% if session.get('user_id') %}
+        <a href="{{ url_for('logout') }}">Log out</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-list" role="status">
+          {% for category, message in messages %}
+            <p class="flash flash-{{ category }}">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">Thoughtful everyday objects, simply chosen.</footer>
+</body>
+</html>

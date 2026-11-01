@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Order placed | Common Goods{% endblock %}
+{% block content %}
+<section class="form-page success-page">
+  <p class="eyebrow">Thank you</p>
+  <h1>Your order is placed.</h1>
+  <p>Order number: <strong>#{{ order_id }}</strong></p>
+  <a class="button button-dark" href="{{ url_for('index') }}">Continue shopping</a>
+</section>
+{% endblock %}

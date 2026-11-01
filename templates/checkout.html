@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Checkout | Common Goods{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <p class="eyebrow">Almost yours</p>
+  <h1>Checkout</h1>
+</section>
+<section class="checkout-layout">
+  <form class="account-form checkout-form" method="post">
+    <h2>Shipping details</h2>
+    <label for="customer_name">Full name</label>
+    <input id="customer_name" name="customer_name" value="{{ session.get('user_name', '') }}" autocomplete="name" required>
+    <label for="shipping_address">Shipping address</label>
+    <textarea id="shipping_address" name="shipping_address" rows="4" autocomplete="street-address" required></textarea>
+    <button class="button button-dark button-wide" type="submit">Place order</button>
+  </form>
+  <aside class="order-summary">
+    <h2>Your order</h2>
+    {% for item in items %}
+      <p><span>{{ item.name }} × {{ item.quantity }}</span><strong>₹{{ "%.2f"|format(item.subtotal) }}</strong></p>
+    {% endfor %}
+    <p class="summary-total"><span>Total</span><strong>₹{{ "%.2f"|format(total) }}</strong></p>
+  </aside>
+</section>
+{% endblock %}
